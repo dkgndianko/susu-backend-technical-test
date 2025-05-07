@@ -7,6 +7,7 @@ from backend.models import (
     TransactionType,
 )
 from backend.models.interfaces import Database
+from backend.models.models import Blance
 
 
 def transactions(db: Database, user_id: int) -> List[TransactionRow]:
@@ -44,3 +45,7 @@ def create_transaction(
         user_id=user_id, **transaction.dict(), state=initial_state
     )
     return db.put("transactions", transaction_row)
+
+
+def user_balance(db: Database, user_id: int) -> Blance:
+    pass

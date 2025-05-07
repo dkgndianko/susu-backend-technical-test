@@ -1,5 +1,6 @@
 from typing import Any, List
 
+from backend.models.models import Blance
 from fastapi import FastAPI, HTTPException
 
 from backend.db import InMemoryDB
@@ -42,8 +43,7 @@ async def create_transaction(user_id: int, transaction: Transaction) -> Transact
     return transactions.create_transaction(db, user_id, transaction)
 
 
-@app.get("/users/{user_id}/transactions/balance")
-async def get_balance(user_id: int) -> Any:  # pylint: disable=unused-argument
+@app.get("/users/{user_id}/transactions/balance", response_model=Blance)
+async def get_balance(user_id: int) -> Blance:
     """Computes the balance of payments for a user subscription."""
-    # We expect you to write this function
-    return None
+    return transactions.user_balance(db, user_id)

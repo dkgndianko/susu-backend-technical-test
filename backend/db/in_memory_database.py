@@ -15,14 +15,14 @@ class Table:
 
 
 class InMemoryDB(Database):
-    def __init__(self):
+    def __init__(self, json_data_file: str = "backend/db/tables.json"):
         self.users: List[UserRow] = []
         self.transactions: List[TransactionRow] = []
         self._tables: Dict[str, Table] = {
             "transactions": Table(schema=TransactionRow, data=self.transactions),
             "users": Table(schema=UserRow, data=self.users),
         }
-        self.load("backend/db/tables.json")
+        self.load(json_data_file)
 
     def load(self, filename: str) -> None:
         """Loads data from a JSON file to initiate the database"""
