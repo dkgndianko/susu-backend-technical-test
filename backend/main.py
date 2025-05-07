@@ -24,6 +24,12 @@ async def get_transactions(user_id: int) -> List[TransactionRow]:
     return transactions.transactions(db, user_id)
 
 
+@app.get("/users/{user_id}/transactions/balance", response_model=Blance)
+async def get_balance(user_id: int) -> Blance:
+    """Computes the balance of payments for a user subscription."""
+    return transactions.user_balance(db, user_id)
+
+
 @app.get(
     "/users/{user_id}/transactions/{transaction_id}", response_model=TransactionRow
 )
@@ -41,9 +47,3 @@ async def get_transaction(user_id: int, transaction_id: int) -> TransactionRow:
 async def create_transaction(user_id: int, transaction: Transaction) -> TransactionRow:
     """Adds a new transaction to the list of user transactions."""
     return transactions.create_transaction(db, user_id, transaction)
-
-
-@app.get("/users/{user_id}/transactions/balance", response_model=Blance)
-async def get_balance(user_id: int) -> Blance:
-    """Computes the balance of payments for a user subscription."""
-    return transactions.user_balance(db, user_id)
