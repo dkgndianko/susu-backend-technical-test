@@ -25,6 +25,7 @@ def mock_database(monkeypatch):
     mocked_db = InMemoryDB(test_json_data)
     monkeypatch.setattr(main, "db", mocked_db)
 
+
 def test_hello():
     response = client.get("/")
     assert response.status_code == 200
@@ -81,6 +82,7 @@ def test_get_balance_when_no_transactions(mock_database):
     assert withdrawals == []
     assert balance == 0
 
+
 def test_get_balance_total_coverage(mock_database):
     response = client.get("users/5/transactions/balance")
     assert response.status_code == 200
@@ -89,6 +91,7 @@ def test_get_balance_total_coverage(mock_database):
     balance = data["balance"]
     assert len(withdrawals) == 1
     assert balance == 0
+
 
 def test_get_balance_unsufficient_funds(mock_database):
     response = client.get("users/6/transactions/balance")
@@ -102,6 +105,7 @@ def test_get_balance_unsufficient_funds(mock_database):
     assert last_withdrawal["amount"] == 10
     assert last_withdrawal["covered_amount"] == 0
     assert last_withdrawal["covered_rate"] == 0
+
 
 def test_get_balance_partial_coverage(mock_database):
     response = client.get("users/7/transactions/balance")

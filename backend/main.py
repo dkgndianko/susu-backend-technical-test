@@ -1,7 +1,7 @@
-from typing import Any, List
+from typing import List
 
-from backend.models.models import Blance
 from fastapi import FastAPI, HTTPException
+from backend.models.models import Blance
 
 from backend.db import InMemoryDB
 from backend.logic import transactions, users
