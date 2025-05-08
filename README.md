@@ -127,7 +127,7 @@ Pour calculer l'état de financement du service d'un utilisateur donné :
 
 - on calcule le solde de la cagnotte de l'utilisateur (cf ci-dessus)
 - ensuite on retranche de ce solde le montant de chaque prélèvement programmé, du plus proche au plus lointain
-- on continue tant que le solde est positif ou tant qu'il reste des prélèvements futurs. Si le solde restant ne permet pas de couvrir l'intégralité d'un prélèvement, on calcule le pourcentage de couverture de la façon suivante: (montant du prélèvement - solde) / montant du prélèvement, arrondi à l'entier le plus proche.
+- on continue tant que le solde est positif ou tant qu'il reste des prélèvements futurs. Si le solde restant ne permet pas de couvrir l'intégralité d'un prélèvement, on calcule le pourcentage de couverture de la façon suivante: solde / montant du prélèvement, arrondi à l'entier le plus proche.
 
 ### Exemples
 
