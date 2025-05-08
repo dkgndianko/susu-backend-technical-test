@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   api-install-and-lint:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.10
     working_directory: ~/project
     steps:
       - checkout
