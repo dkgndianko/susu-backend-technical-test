@@ -114,7 +114,7 @@ def test_get_balance_partial_coverage(mock_database):
     last_withdrawal = withdrawals[-1]
     assert last_withdrawal["amount"] == 15
     assert last_withdrawal["covered_amount"] == 10
-    assert last_withdrawal["covered_rate"] == 66.67
+    assert last_withdrawal["covered_rate"] == 67
 
 
 def test_balance_sufficient_funds(mock_database):

@@ -7,7 +7,7 @@ from backend.models import (
     TransactionType,
 )
 from backend.models.interfaces import Database
-from backend.models.models import Blance
+from backend.models.models import BalanceItem, Blance
 
 
 def transactions(db: Database, user_id: int) -> List[TransactionRow]:
@@ -48,4 +48,34 @@ def create_transaction(
 
 
 def user_balance(db: Database, user_id: int) -> Blance:
-    pass
+    trxs = transactions(db, user_id)
+    if len(trxs) == 0:
+        return Blance(withdrawals=[], balance=0)
+    
+    scheduled_withdrawals = [trx for trx in trxs if trx.type == TransactionType.SCHEDULED_WITHDRAWAL and trx.state == TransactionState.SCHEDULED]
+    completed_withdrawals = [trx.amount for trx in trxs if trx.type == TransactionType.SCHEDULED_WITHDRAWAL and trx.state == TransactionState.COMPLETED]
+    completed_deposits = [trx.amount for trx in trxs if trx.type == TransactionType.DEPOSIT and trx.state == TransactionState.COMPLETED]
+    completed_and_pending_refunds = [trx.amount for trx in trxs if trx.type == TransactionType.REFUND and trx.state in (TransactionState.COMPLETED, TransactionState.PENDING)]
+    balance = sum(completed_deposits) - sum(completed_withdrawals) - sum(completed_and_pending_refunds)
+
+    scheduled_withdrawals = sorted(scheduled_withdrawals, key=lambda w: w.date)
+    future_withdrawals: List[BalanceItem] = []
+    for withdrawal in scheduled_withdrawals:
+        amount = withdrawal.amount
+        if amount == 0: # ignore zero amounts
+            continue
+        if balance == 0:
+            covered = 0
+            covered_rate = 0
+        else:
+            # covered = amount if amount < balance else (amount - balance)
+            covered = amount if amount < balance else balance
+            covered_rate = round(100 * covered / amount)
+            balance -= covered
+
+
+            
+        future_withdrawals.append(BalanceItem(amount=amount, covered_amount=covered, covered_rate=covered_rate))
+
+    return Blance(balance=balance, withdrawals=future_withdrawals)
+

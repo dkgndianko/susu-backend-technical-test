@@ -44,8 +44,8 @@ class TransactionRow(Row, Transaction):
 
 class BalanceItem(BaseModel):
     amount: float
-    covered_amount_percentage: float
-    covered_rate: float
+    covered_amount: float
+    covered_rate: int
 
 
 class Blance(BaseModel):
