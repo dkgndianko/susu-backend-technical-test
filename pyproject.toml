@@ -1,8 +1,12 @@
-[tool.poetry]
+[project]
 name = "technical-test"
 version = "0.2.0"
 description = ""
-authors = ["Laurent Leconte <laurent.leconte@susu.fr>"]
+authors = [ {name = "Laurent Leconte", email= "laurent.leconte@susu.fr" } ]
+requires-python = "^3.10"
+
+[tool.poetry]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -10,7 +14,7 @@ fastapi = ">=0.112"
 uvicorn = ">=0.18.2"
 mypy = ">=0.971"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = ">=22.6.0"
 pytest = ">=6.2"
 pylint = ">=2.14.5"
